@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Список задач</title>
+  <link rel="icon" href="./img/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="./fonts/roboto-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./css/style.css">
+  <script type="module" src="./js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#new-title">Перейти к добавлению задачи</a>
+
+  <main class="page">
+    <h1 class="visually-hidden">Список задач</h1>
+
+    <form class="add-form" data-add-form novalidate>
+      <div class="add-form__row">
+        <div class="add-form__fields">
+          <label class="visually-hidden" for="new-title">Название задачи</label>
+          <input class="field" id="new-title" name="title" type="text" maxlength="100"
+                 placeholder="Название…" autocomplete="off" aria-describedby="add-error" data-add-title>
+          <label class="visually-hidden" for="new-body">Описание задачи</label>
+          <input class="field" id="new-body" name="body" type="text" maxlength="500"
+                 placeholder="Описание…" autocomplete="off" data-add-body>
+        </div>
+        <button class="add-button" type="submit">
+          <svg aria-hidden="true" focusable="false"><use href="./img/icons/sprite.svg#plus"></use></svg>
+          <span class="visually-hidden">Добавить задачу</span>
+        </button>
+      </div>
+      <p class="form-error" id="add-error" aria-live="polite" data-add-error></p>
+    </form>
+
+    <section aria-labelledby="tasks-title">
+      <h2 class="visually-hidden" id="tasks-title">Задачи</h2>
+      <ul class="task-list" data-list></ul>
+
+      <div class="empty" data-empty hidden>
+        <span class="empty__line" aria-hidden="true"></span>
+        <p class="empty__text">Задач нет</p>
+        <span class="empty__line" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <p class="visually-hidden" aria-live="polite" data-status></p>
+  </main>
+
+  <dialog class="dialog sheet edit-dialog" aria-labelledby="edit-heading" data-edit-dialog>
+    <form class="dialog__inner edit-form" novalidate data-edit-form>
+      <h2 class="visually-hidden" id="edit-heading">Изменение задачи</h2>
+      <label class="visually-hidden" for="edit-title">Название задачи</label>
+      <input class="field field--dim" id="edit-title" name="title" type="text" maxlength="100"
+             placeholder="Название…" autocomplete="off" aria-describedby="edit-error edit-hint" data-edit-title>
+      <label class="visually-hidden" for="edit-body">Описание задачи</label>
+      <textarea class="field field--dim edit-form__body" id="edit-body" name="body" maxlength="500"
+                placeholder="Описание…" aria-describedby="edit-hint" data-edit-body></textarea>
+      <p class="form-error" id="edit-error" aria-live="polite" data-edit-error></p>
+      <p class="visually-hidden" id="edit-hint">Enter в названии или Ctrl+Enter — сохранить, Escape — отменить</p>
+      <div class="dialog-actions">
+        <button class="dialog-button hit-area" type="button" data-edit-cancel>Отмена</button>
+        <button class="dialog-button hit-area" type="submit">Сохранить</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="dialog alert" role="alertdialog" aria-labelledby="delete-heading"
+          aria-describedby="delete-name" data-delete-dialog>
+    <p class="alert__title" id="delete-heading">Удалить задачу?</p>
+    <p class="visually-hidden" id="delete-name" data-delete-name></p>
+    <div class="dialog-actions">
+      <button class="dialog-button hit-area" type="button" data-delete-yes>Да</button>
+      <button class="dialog-button hit-area" type="button" data-delete-no>Нет</button>
+    </div>
+  </dialog>
+
+  <dialog class="dialog sheet share-dialog" aria-labelledby="share-heading" data-share-dialog>
+    <div class="dialog__inner">
+      <h2 class="visually-hidden" id="share-heading">Поделиться задачей</h2>
+      <ul class="share__list">
+        <li>
+          <button class="share__item" type="button" data-share-copy>
+            <svg aria-hidden="true" focusable="false"><use href="./img/icons/sprite.svg#copy"></use></svg>
+            <span class="visually-hidden">Скопировать текст задачи</span>
+          </button>
+        </li>
+        <li>
+          <a class="share__item" href="https://vk.com/" target="_blank" rel="noopener noreferrer" data-share-link="vk">
+            <svg aria-hidden="true" focusable="false"><use href="./img/icons/sprite.svg#vk"></use></svg>
+            <span class="visually-hidden">ВКонтакте (новая вкладка)</span>
+          </a>
+        </li>
+        <li>
+          <a class="share__item" href="https://t.me/" target="_blank" rel="noopener noreferrer" data-share-link="telegram">
+            <svg aria-hidden="true" focusable="false"><use href="./img/icons/sprite.svg#telegram"></use></svg>
+            <span class="visually-hidden">Telegram (новая вкладка)</span>
+          </a>
+        </li>
+        <li>
+          <a class="share__item" href="https://wa.me/" target="_blank" rel="noopener noreferrer" data-share-link="whatsapp">
+            <svg aria-hidden="true" focusable="false"><use href="./img/icons/sprite.svg#whatsapp"></use></svg>
+            <span class="visually-hidden">WhatsApp (новая вкладка)</span>
+          </a>
+        </li>
+        <li>
+          <a class="share__item" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" data-share-link="facebook">
+            <svg aria-hidden="true" focusable="false"><use href="./img/icons/sprite.svg#facebook"></use></svg>
+            <span class="visually-hidden">Facebook (новая вкладка)</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </dialog>
+
+  <template id="task-template">
+    <li class="task" data-id="">
+      <div class="task__card">
+        <label class="task__check-area">
+          <input class="task__check" type="checkbox" data-role="check">
+        </label>
+        <button class="task__content" type="button" aria-expanded="false" data-role="toggle">
+          <span class="task__title" data-role="title">Название задачи</span>
+          <span class="task__body" data-role="body"></span>
+        </button>
+        <button class="task__delete hit-area" type="button" data-action="delete" data-role="delete">
+          <svg aria-hidden="true" focusable="false"><use href="./img/icons/sprite.svg#close"></use></svg>
+          <span class="visually-hidden" data-role="delete-label">Удалить задачу</span>
+        </button>
+      </div>
+      <div class="task__extra" data-role="extra" hidden>
+        <p class="task__info" data-role="info" hidden></p>
+        <div class="task__tools">
+          <button class="tool hit-area" type="button" data-action="share" data-role="share">
+            <svg aria-hidden="true" focusable="false"><use href="./img/icons/sprite.svg#share"></use></svg>
+            <span class="visually-hidden" data-role="share-label">Поделиться задачей</span>
+          </button>
+          <button class="tool hit-area" type="button" aria-expanded="false" data-action="info" data-role="info-button">
+            <span class="tool__letter" aria-hidden="true">i</span>
+            <span class="visually-hidden" data-role="info-label">Сведения о задаче</span>
+          </button>
+          <button class="tool hit-area" type="button" data-action="edit" data-role="edit">
+            <svg aria-hidden="true" focusable="false"><use href="./img/icons/sprite.svg#edit"></use></svg>
+            <span class="visually-hidden" data-role="edit-label">Изменить задачу</span>
+          </button>
+        </div>
+      </div>
+    </li>
+  </template>
+</body>
+</html>
