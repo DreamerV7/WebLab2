@@ -1,3 +1,4 @@
+const KEY = 'todo-app:v1';
 function isValidTask(task) {
   return (
     task !== null &&

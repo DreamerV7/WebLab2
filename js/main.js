@@ -147,7 +147,13 @@ list.addEventListener('change', (event) => {
 list.addEventListener('click', (event) => {
   const control = event.target.closest('[data-action], [data-role="toggle"]');
   if (!control) return;
-  const id = control.closest('.task').dataset.id;
+    const id = control.closest('.task').dataset.id;
+
+    document.addEventListener('click', (event) => {
+        if (state.ui.openId === null) return;
+        if (event.target.closest('.task, dialog')) return;
+        toggleTools(state.ui.openId);
+    });
 
   switch (control.dataset.action ?? control.dataset.role) {
     case 'toggle':
